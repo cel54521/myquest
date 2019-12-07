@@ -1,0 +1,13 @@
+
+.quest {
+	width: 480px;
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    color: #232323;
+    background: #fff8e8;
+    border-left: solid 10px #ffc06e;
+}
+.quest p {
+    margin: 0; 
+    padding: 0;
+}
