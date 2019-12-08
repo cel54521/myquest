@@ -1,16 +1,10 @@
 'use strict';
 
 // グループオブジェクト
-var Group = function(){
-    var _quest= [];
+var Group = function(name){
+    this.name = name;
+    this.quest= [];
 
-    
     Object.defineProperties(this, {
-
     });
 }
-Group.prototype = {
-    addQuest:function(quest){
-        _quest.push(quest);
-    }
-};
