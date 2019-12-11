@@ -5,13 +5,15 @@ var normalGroup = new Group("normal");
 
 // クエストの読み込み
 function readQuest() {
-    /* TODO:仮実装 */
-    
-    normalGroup.quest.push(new Quest("クエスト機能の実装",null,null));
-    normalGroup.quest.push(new Quest("デッドラインの実装",null,null));
-    normalGroup.quest.push(new Quest("デイリークエストの実装",null,null));
-    normalGroup.quest.push(new Quest("優先度の実装",null,null));
-
+    var storage = localStorage;
+    if(storage.length == 0)
+    {
+        normalGroup.quest = [];
+    }
+    else
+    {
+        normalGroup.quest = storage.getItem('quest');
+    }
 }
 
 // クエストの追加
@@ -19,6 +21,9 @@ function addQuest() {
     var questText = document.getElementById("questText");
 
     normalGroup.quest.push(new Quest(questText.value,null,null));
+
+    var storage = localStorage;
+    storage.setItem('quest', normalGroup.quest);
 
     refresh() ;
 }
@@ -36,6 +41,13 @@ function refresh() {
     }
 }
 
+// クエスト全削除
+function clearQuest(){
+    normalGroup.quest = [];
+
+    refresh();
+}
+
 onload = function() {
     var doc = document.getElementById("Questmaster");
 
@@ -43,7 +55,10 @@ onload = function() {
     readQuest();
 
     // クエストの表示
-    for(var i = 0;i < normalGroup.quest.length;i++){
-        doc.innerHTML += "<div class=\"quest\"><p>" + normalGroup.quest[i].questName + "</p></div>";
+    if( normalGroup.quest != undefined)
+    {
+        for(var i = 0;i < normalGroup.quest.length;i++){
+            doc.innerHTML += "<div class=\"quest\"><p>" + normalGroup.quest[i].questName + "</p></div>";
+        }
     }
 };
