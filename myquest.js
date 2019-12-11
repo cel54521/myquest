@@ -14,7 +14,29 @@ function readQuest() {
 
 }
 
-function main() {
+// クエストの追加
+function addQuest() {
+    var questText = document.getElementById("questText");
+
+    normalGroup.quest.push(new Quest(questText.value,null,null));
+
+    refresh() ;
+}
+
+// クエストの再表示
+function refresh() {
+    var doc = document.getElementById("Questmaster");
+
+    // クリア
+    doc.innerHTML = "" ;
+
+    // クエストの表示
+    for(var i = 0;i < normalGroup.quest.length;i++){
+        doc.innerHTML += "<div class=\"quest\" draggable=\"true\"><p>" + normalGroup.quest[i].questName + "</p></div>";
+    }
+}
+
+onload = function() {
     var doc = document.getElementById("Questmaster");
 
     // クエストの読み込み
@@ -24,8 +46,4 @@ function main() {
     for(var i = 0;i < normalGroup.quest.length;i++){
         doc.innerHTML += "<div class=\"quest\"><p>" + normalGroup.quest[i].questName + "</p></div>";
     }
-}
-
-onload = function() {
-    main();
 };
