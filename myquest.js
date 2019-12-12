@@ -12,7 +12,7 @@ function readQuest() {
     }
     else
     {
-        normalGroup.quest = storage.getItem('quest');
+        normalGroup.quest = JSON.parse(storage.getItem('quest'));
     }
 }
 
@@ -22,8 +22,8 @@ function addQuest() {
 
     normalGroup.quest.push(new Quest(questText.value,null,null));
 
-    var storage = localStorage;
-    storage.setItem('quest', normalGroup.quest);
+    // ローカルストレージに保存
+    saveLocal();
 
     refresh() ;
 }
@@ -39,13 +39,26 @@ function refresh() {
     for(var i = 0;i < normalGroup.quest.length;i++){
         doc.innerHTML += "<div class=\"quest\" draggable=\"true\"><p>" + normalGroup.quest[i].questName + "</p></div>";
     }
+
+    doc = document.getElementById("json");
+    doc.innerHTML = JSON.stringify(normalGroup.quest);
 }
 
 // クエスト全削除
 function clearQuest(){
     normalGroup.quest = [];
 
+    // ローカルストレージに保存
+    saveLocal();
+    
     refresh();
+}
+
+// ローカルストレージに保存
+function saveLocal(){
+   var storage = localStorage;
+   storage.setItem('quest', JSON.stringify(normalGroup.quest));
+    
 }
 
 onload = function() {
@@ -55,10 +68,5 @@ onload = function() {
     readQuest();
 
     // クエストの表示
-    if( normalGroup.quest != undefined)
-    {
-        for(var i = 0;i < normalGroup.quest.length;i++){
-            doc.innerHTML += "<div class=\"quest\"><p>" + normalGroup.quest[i].questName + "</p></div>";
-        }
-    }
+    refresh();
 };
