@@ -1,26 +1,33 @@
 'use strict';
 
-// 通常クエスト
-var normalGroup = new Group("normal");
+// クエスト
+var questGroups = {
+    "normal": []
+}
 
 // クエストの読み込み
 function readQuest() {
     var storage = localStorage;
-    if(storage.length == 0)
+
+    // サイズが0でなければ
+    if(storage.length != 0)
     {
-        normalGroup.quest = [];
+        questGroups = JSON.parse(storage.getItem('quest'));
     }
-    else
-    {
-        normalGroup.quest = JSON.parse(storage.getItem('quest'));
+
+    // Nullやundefinedでなければ
+    if(questGroups == null || questGroups === undefined){
+        questGroups = {
+            "normal": []
+        }
     }
 }
 
 // クエストの追加
-function addQuest() {
+function addQuest(group) {
     var questText = document.getElementById("questText");
 
-    normalGroup.quest.push(new Quest(questText.value,null,null));
+    questGroups[group].push(new Quest(questText.value,null,null));
 
     // ローカルストレージに保存
     saveLocal();
@@ -36,28 +43,30 @@ function refresh() {
     doc.innerHTML = "" ;
 
     // クエストの表示
-    for(var i = 0;i < normalGroup.quest.length;i++){
-        doc.innerHTML += "<div class=\"quest\" draggable=\"true\"><p>" + normalGroup.quest[i].questName + "</p></div>";
+    for(var i = 0;i < questGroups["normal"].length;i++){
+        doc.innerHTML += "<div class=\"quest\" draggable=\"true\"><p>" + questGroups["normal"][i].questName + "</p></div>";
     }
 
     doc = document.getElementById("json");
-    doc.innerHTML = JSON.stringify(normalGroup.quest);
+    doc.innerHTML = JSON.stringify(questGroups);
 }
 
 // クエスト全削除
 function clearQuest(){
-    normalGroup.quest = [];
+    questGroups = {
+        "normal": []
+    }
 
     // ローカルストレージに保存
     saveLocal();
-    
+
     refresh();
 }
 
 // ローカルストレージに保存
 function saveLocal(){
    var storage = localStorage;
-   storage.setItem('quest', JSON.stringify(normalGroup.quest));
+   storage.setItem('quest', JSON.stringify(questGroups));
     
 }
 

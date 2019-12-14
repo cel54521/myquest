@@ -8,7 +8,7 @@
   <body bgcolor="#FFFFFF">
     <form>
       <p><input type="button" value="clear" onclick="clearQuest()"></p>
-      <p><label>クエスト追加：<input type="text" id="questText" name="questText" size="40" maxlength="20"></label>  <input type="button" value="ADD" onclick="addQuest()"></p>
+      <p><label>クエスト追加：<input type="text" id="questText" name="questText" size="40" maxlength="20"></label>  <input type="button" value="ADD" onclick="addQuest(&quot;normal&quot;)"></p>
     </form> 
     <script type="text/javascript" src="Quest.js"></script>
     <script type="text/javascript" src="Group.js"></script>
@@ -18,7 +18,7 @@
     <br>
     <br>
     <div class="json" id="json">
-      
+
     </div>
   </body>
 </html>
