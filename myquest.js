@@ -2,7 +2,16 @@
 
 // クエスト
 var questGroups = {
-    "normal": []
+    "normal": [],
+    "daily": []
+}
+
+// クエストの初期化
+function initQuest(){
+    questGroups = {
+        "normal": [],
+        "daily": []
+    };
 }
 
 // クエストの読み込み
@@ -17,17 +26,16 @@ function readQuest() {
 
     // Nullやundefinedでなければ
     if(questGroups == null || questGroups === undefined){
-        questGroups = {
-            "normal": []
-        }
+        initQuest();
     }
 }
 
 // クエストの追加
-function addQuest(group) {
+function addQuest() {
     var questText = document.getElementById("questText");
+    var questType = document.getElementById("questType");
 
-    questGroups[group].push(new Quest(questText.value,null,null));
+    questGroups[questType.value].push(new Quest(questText.value,null,null));
 
     // ローカルストレージに保存
     saveLocal();
@@ -42,10 +50,17 @@ function refresh() {
     // クリア
     doc.innerHTML = "" ;
 
+    var buf = "";
     // クエストの表示
     for(var i = 0;i < questGroups["normal"].length;i++){
-        doc.innerHTML += "<div class=\"quest\" draggable=\"true\"><p>" + questGroups["normal"][i].questName + "</p></div>";
+        buf += "<div class=\"quest\" draggable=\"true\"><p>";
+
+        // 状態の表示
+        buf += "<img src=\"img/todo.png\" />   ";
+        
+        buf += questGroups["normal"][i].questName + "</p></div>";
     }
+    doc.innerHTML = buf;
 
     doc = document.getElementById("json");
     doc.innerHTML = JSON.stringify(questGroups);
@@ -53,9 +68,7 @@ function refresh() {
 
 // クエスト全削除
 function clearQuest(){
-    questGroups = {
-        "normal": []
-    }
+    initQuest();
 
     // ローカルストレージに保存
     saveLocal();
