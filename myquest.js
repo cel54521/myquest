@@ -35,7 +35,7 @@ function addQuest() {
     var questText = document.getElementById("questText");
     var questType = document.getElementById("questType");
 
-    questGroups[questType.value].push(new Quest(questText.value,null,null));
+    questGroups[questType.value].push(new Quest(questText.value,null,null,"todo"));
 
     // ローカルストレージに保存
     saveLocal();
@@ -56,8 +56,19 @@ function refresh() {
         buf += "<div class=\"quest\" draggable=\"true\"><p>";
 
         // 状態の表示
-        buf += "<img src=\"img/todo.png\" />   ";
-        
+        if(questGroups["normal"][i].status == "todo")
+        {
+            buf += "<img src=\"img/todo.png\" onclick=\"changeStatus(&quot;normal&quot;,"+i+",&quot;do&quot;)\"/>   ";
+        }
+        else if(questGroups["normal"][i].status == "do")
+        {
+            buf += "<img src=\"img/do.png\" onclick=\"changeStatus(&quot;normal&quot;,"+i+",&quot;done&quot;)\"/>   ";
+        }
+        else
+        {
+            buf += "<img src=\"img/done.png\" onclick=\"changeStatus(&quot;normal&quot;,"+i+",&quot;todo&quot;)\"/>   ";
+        }
+
         buf += questGroups["normal"][i].questName + "</p></div>";
     }
     doc.innerHTML = buf;
@@ -81,6 +92,13 @@ function saveLocal(){
    var storage = localStorage;
    storage.setItem('quest', JSON.stringify(questGroups));
     
+}
+
+// statusの切り替え
+function changeStatus(group, no, status){
+    questGroups[group][no].status = status;
+
+    refresh();
 }
 
 onload = function() {
