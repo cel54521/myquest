@@ -2,12 +2,20 @@
 .quest {
 	width: 480px;
     padding: 0.5em 1em;
-    margin: 0.5em 0;
+    margin: 0.5em 0em;
     color: #232323;
     background: #fff8e8;
     border-left: solid 10px #ffc06e;
 }
-.quest p {
-    margin: 0; 
-    padding: 0;
+.contents{
+    margin: 0em; 
+    padding: 0em;
+}
+.delete{
+    float: left;
+}
+.quest img {
+    float: left;
+    margin: 0em; 
+    padding: 0.2em;
 }

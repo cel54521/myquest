@@ -6,6 +6,9 @@
     <link rel='stylesheet' href='style.css' />
   </head>
   <body bgcolor="#FFFFFF">
+    <script type="text/javascript" src="Quest.js"></script>
+    <script type="text/javascript" src="myquest.js"></script>
+    
     <form>
       <p><input type="button" value="clear" onclick="clearQuest()"></p>
       <p><label>クエスト追加：
@@ -13,12 +16,18 @@
           <option value="normal">通常</option>
           <option value="daily">定期</option>
         </select>
+        <input type="date" name="date">
         <input type="text" id="questText" name="questText" size="40" maxlength="20"></label>
         <input type="button" value="ADD" onclick="addQuest()"></p>
     </form> 
-    <script type="text/javascript" src="Quest.js"></script>
-    <script type="text/javascript" src="myquest.js"></script>
+
     <div class="Questmaster" id="Questmaster">
+      <h2>Noamal</h2>
+      <div class="normal" id="normal">
+      </div>
+      <h2>Daily</h2>
+      <div class="daily" id="daily">
+      </div>
     </div>
     <br>
     <br>

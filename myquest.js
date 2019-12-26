@@ -43,37 +43,45 @@ function addQuest() {
     refresh() ;
 }
 
-// クエストの再表示
-function refresh() {
-    var doc = document.getElementById("Questmaster");
+// html追加
+function htmlOutput(type){
+    var doc = document.getElementById(type);
 
     // クリア
     doc.innerHTML = "" ;
 
     var buf = "";
     // クエストの表示
-    for(var i = 0;i < questGroups["normal"].length;i++){
-        buf += "<div class=\"quest\" draggable=\"true\"><p>";
+    for(var i = 0;i < questGroups[type].length;i++){
+        buf += "<div class=\"quest\" draggable=\"true\">";
+        buf += "<div class=\"delete\" onclick=\"deleteQuest(&quot;"+ type + "&quot;,"+i+")\">×</div>";
 
         // 状態の表示
-        if(questGroups["normal"][i].status == "todo")
+        if(questGroups[type][i].status == "todo")
         {
-            buf += "<img src=\"img/todo.png\" onclick=\"changeStatus(&quot;normal&quot;,"+i+",&quot;do&quot;)\"/>   ";
+            buf += "<img src=\"img/todo.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;do&quot;)\"/>   ";
         }
-        else if(questGroups["normal"][i].status == "do")
+        else if(questGroups[type][i].status == "do")
         {
-            buf += "<img src=\"img/do.png\" onclick=\"changeStatus(&quot;normal&quot;,"+i+",&quot;done&quot;)\"/>   ";
+            buf += "<img src=\"img/do.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;done&quot;)\"/>   ";
         }
         else
         {
-            buf += "<img src=\"img/done.png\" onclick=\"changeStatus(&quot;normal&quot;,"+i+",&quot;todo&quot;)\"/>   ";
+            buf += "<img src=\"img/done.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;todo&quot;)\"/>   ";
         }
 
-        buf += questGroups["normal"][i].questName + "</p></div>";
+        buf += "<div class=\"contents\">" + questGroups[type][i].questName + "</div>"
+        buf += "</div>";
     }
     doc.innerHTML = buf;
 
-    doc = document.getElementById("json");
+}
+
+// クエストの再表示
+function refresh() {
+    htmlOutput("normal");
+    htmlOutput("daily");
+    var doc = document.getElementById("json");
     doc.innerHTML = JSON.stringify(questGroups);
 }
 
@@ -81,6 +89,17 @@ function refresh() {
 function clearQuest(){
     initQuest();
 
+    // ローカルストレージに保存
+    saveLocal();
+
+    refresh();
+}
+
+// クエスト削除
+function deleteQuest(group, id)
+{
+    questGroups[group].splice(id,1);
+    
     // ローカルストレージに保存
     saveLocal();
 
@@ -97,6 +116,9 @@ function saveLocal(){
 // statusの切り替え
 function changeStatus(group, no, status){
     questGroups[group][no].status = status;
+
+    // ローカルストレージに保存
+    saveLocal();
 
     refresh();
 }
