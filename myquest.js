@@ -34,8 +34,9 @@ function readQuest() {
 function addQuest() {
     var questText = document.getElementById("questText");
     var questType = document.getElementById("questType");
+    var questDeadLine = document.getElementById("questDeadline");
 
-    questGroups[questType.value].push(new Quest(questText.value,null,null,"todo"));
+    questGroups[questType.value].push(new Quest(questText.value,questDeadLine.value,null,"todo"));
 
     // ローカルストレージに保存
     saveLocal();
@@ -70,7 +71,26 @@ function htmlOutput(type){
             buf += "<img src=\"img/done.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;todo&quot;)\"/>   ";
         }
 
-        buf += "<div class=\"contents\">" + questGroups[type][i].questName + "</div>"
+        buf += "<div class=\"contents\">" + questGroups[type][i].questName;
+        
+        // デッドラインの表示
+        if(questGroups[type][i].date != null && questGroups[type][i].date != "")
+        {
+            var deadLine = new Date(questGroups[type][i].date.replace(/-/g,"/")).getTime();
+            
+            if(Date.now() >= deadLine)
+            {
+                // 期限を超えていたら赤
+                buf +=  " <div class=\"dead\">(" + questGroups[type][i].date + ")</div>";
+            }
+            else
+            {
+                // 期限を超えていたら赤
+                buf +=  " <div class=\"safe\">(" + questGroups[type][i].date + ")</div>";    
+            }
+        }
+
+        buf += "</div>";
         buf += "</div>";
     }
     doc.innerHTML = buf;

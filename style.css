@@ -1,4 +1,11 @@
 
+.Questmaster {
+	width: 640px;
+    padding: 1em 1em;
+    margin: 1em 1em;
+    background: #aaaaaa;
+    border:dotted #333333;
+}
 .quest {
 	width: 480px;
     padding: 0.5em 1em;
@@ -18,4 +25,14 @@
     float: left;
     margin: 0em; 
     padding: 0.2em;
+}
+
+.dead{
+    float: right;
+    color: #FF0000;
+}
+
+.safe{
+    float: right;
+    color: #0000FF;
 }
