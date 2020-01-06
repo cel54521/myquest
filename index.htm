@@ -11,14 +11,25 @@
 
     <form>
       <!-- <p><input type="button" value="clear" onclick="clearQuest()"></p> -->
-      <p><label>クエスト追加：
+      <p>
+        <label>クエスト追加：
         <select id="questType" name="questType">
           <option value="normal">通常</option>
           <option value="daily">定期</option>
         </select>
         <input type="date" id="questDeadline" name="date">
         <input type="text" id="questText" name="questText" size="40" maxlength="20"></label>
-        <input type="button" value="ADD" onclick="addQuest()"></p>
+        <input type="button" value="ADD" onclick="addQuest()">
+      </p>
+      <p>
+        <input type="checkbox" name="dailyChkBox" value="1" checked="checked">月
+        <input type="checkbox" name="dailyChkBox" value="2">火
+        <input type="checkbox" name="dailyChkBox" value="3">水
+        <input type="checkbox" name="dailyChkBox" value="4">木
+        <input type="checkbox" name="dailyChkBox" value="5">金
+        <input type="checkbox" name="dailyChkBox" value="6">土
+        <input type="checkbox" name="dailyChkBox" value="7">日
+      </p>
     </form> 
 
     <div class="Questmaster" id="Questmaster">
