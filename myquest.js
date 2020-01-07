@@ -127,14 +127,16 @@ function deleteQuest(group, id)
 }
 
 // ローカルストレージに保存
-function saveLocal(){
+function saveLocal()
+{
    var storage = localStorage;
    storage.setItem('quest', JSON.stringify(questGroups));
     
 }
 
 // statusの切り替え
-function changeStatus(group, no, status){
+function changeStatus(group, no, status)
+{
     questGroups[group][no].status = status;
 
     // ローカルストレージに保存
@@ -143,12 +145,34 @@ function changeStatus(group, no, status){
     refresh();
 }
 
+// questTypeの切り替え
+function changeQuestType()
+{
+    var questType = document.getElementById("questType");
+    var weekChkBox = document.getElementById("weekChkBox");
+
+    if(questType.value == "daily")
+    {
+        weekChkBox.hidden = false;
+    }
+    else
+    {
+        weekChkBox.hidden = true;
+    }
+
+
+}
+
 onload = function() {
     var doc = document.getElementById("Questmaster");
-
+    
+    //questTypeの切り替え
+    changeQuestType();
+    
     // クエストの読み込み
     readQuest();
 
     // クエストの表示
     refresh();
 };
+
