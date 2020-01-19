@@ -35,13 +35,36 @@ function addQuest() {
     var questText = document.getElementById("questText");
     var questType = document.getElementById("questType");
     var questDeadLine = document.getElementById("questDeadline");
+    var weekChkBox = document.getElementById("weekChkBox");
 
-    questGroups[questType.value].push(new Quest(questText.value,questDeadLine.value,null,"todo"));
+    if(questType.value == "normal")
+    {
+        questGroups[questType.value].push(new Quest(questText.value,questDeadLine.value,null,"todo"));
+    }
+    else
+    {
+        questGroups[questType.value].push(new Quest(questText.value,questDeadLine.value,null,"todo",getDaily()));
+    }
 
     // ローカルストレージに保存
     saveLocal();
 
     refresh() ;
+}
+
+// デイリーの日付を取得
+function getDaily(){
+    const dailyChkBox = document.getElementsByName("dailyChkBox");
+    var ret;
+
+    ret = 0;
+    for(var i = 0;i < dailyChkBox.length; i++){
+        if(dailyChkBox[i].checked == true){
+            ret |= parseInt(dailyChkBox[i].value, 10);
+        }
+    }
+    
+    return ret;
 }
 
 // html追加
@@ -60,18 +83,22 @@ function htmlOutput(type){
         // 状態の表示
         if(questGroups[type][i].status == "todo")
         {
-            buf += "<img src=\"img/todo.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;do&quot;)\"/>   ";
+            //buf += "<img src=\"img/todo.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;do&quot;)\"/>   ";
+            buf += "<div class=\"status\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;do&quot;)\"/>TODO:</div>";
         }
         else if(questGroups[type][i].status == "do")
         {
-            buf += "<img src=\"img/do.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;done&quot;)\"/>   ";
+            //buf += "<img src=\"img/do.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;done&quot;)\"/>   ";
+            buf += "<div class=\"status\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;done&quot;)\"/>DO:</div>";
         }
         else
         {
-            buf += "<img src=\"img/done.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;todo&quot;)\"/>   ";
+            //buf += "<img src=\"img/done.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;todo&quot;)\"/>   ";
+            buf += "<div class=\"status\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;todo&quot;)\"/>DONE:</div>";
         }
 
-        buf += "<div class=\"contents\">" + questGroups[type][i].questName;
+        buf += "<div class=\"contents\" contenteditable=\"false\" id=\"c" + i + "\" ondblclick=\"enableContentEdittable(" + i + ")\">" + questGroups[type][i].questName;
+        //buf += "<div class=\"contents\" contenteditable=\"false\" id=\"c" + i + "\">" + questGroups[type][i].questName;
         
         // デッドラインの表示
         if(questGroups[type][i].date != null && questGroups[type][i].date != "")
@@ -161,6 +188,13 @@ function changeQuestType()
     }
 
 
+}
+
+function enableContentEdittable(id)
+{
+    var doc = document.getElementById("c" + id.toString());
+
+    doc.contentEditable = true;
 }
 
 onload = function() {
