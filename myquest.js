@@ -70,13 +70,26 @@ function getDaily(){
 // html追加
 function htmlOutput(type){
     var doc = document.getElementById(type);
-
+    var week = (1 << new Date().getDay());
     // クリア
     doc.innerHTML = "" ;
 
     var buf = "";
     // クエストの表示
     for(var i = 0;i < questGroups[type].length;i++){
+        if(type == "daily")
+        {
+            // 表示非表示チェック
+            if((questGroups[type][i].week & week) == 0)
+            {
+                continue;
+            }
+
+            if(questGroups[type][i].finishWeek != week)
+            {
+                changeStatus(type,i,"todo");
+            }
+        }
         buf += "<div class=\"quest\" draggable=\"true\">";
         buf += "<div class=\"delete\" onclick=\"deleteQuest(&quot;"+ type + "&quot;,"+i+")\">×</div>";
 
@@ -84,17 +97,17 @@ function htmlOutput(type){
         if(questGroups[type][i].status == "todo")
         {
             //buf += "<img src=\"img/todo.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;do&quot;)\"/>   ";
-            buf += "<div class=\"status\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;do&quot;)\"/>TODO:</div>";
+            buf += "<div class=\"todo\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;do&quot;)\"/>TODO:</div>";
         }
         else if(questGroups[type][i].status == "do")
         {
             //buf += "<img src=\"img/do.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;done&quot;)\"/>   ";
-            buf += "<div class=\"status\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;done&quot;)\"/>DO:</div>";
+            buf += "<div class=\"do\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;done&quot;)\"/>DO:</div>";
         }
         else
         {
             //buf += "<img src=\"img/done.png\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;todo&quot;)\"/>   ";
-            buf += "<div class=\"status\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;todo&quot;)\"/>DONE:</div>";
+            buf += "<div class=\"done\" onclick=\"changeStatus(&quot;"+ type + "&quot;,"+i+",&quot;todo&quot;)\"/>DONE:</div>";
         }
 
         buf += "<div class=\"contents\" contenteditable=\"false\" id=\"c" + i + "\" ondblclick=\"enableContentEdittable(" + i + ")\">" + questGroups[type][i].questName;
@@ -164,7 +177,9 @@ function saveLocal()
 // statusの切り替え
 function changeStatus(group, no, status)
 {
+    var finishWeek = (1 << new Date().getDay());
     questGroups[group][no].status = status;
+    questGroups[group][no].finishWeek = finishWeek;
 
     // ローカルストレージに保存
     saveLocal();

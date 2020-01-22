@@ -28,11 +28,28 @@
     padding: 0.2em;
 }
 
-.status{
+.todo{
     width:6ex;
     padding-left: 0.5em; 
     padding-right: 0.5em;
     float: left;
+    color: #ff0000;
+}
+
+.do{
+    width:6ex;
+    padding-left: 0.5em; 
+    padding-right: 0.5em;
+    float: left;
+    color: #00aa00;
+}
+
+.done{
+    width:6ex;
+    padding-left: 0.5em; 
+    padding-right: 0.5em;
+    float: left;
+    color: #0000ff;
 }
 
 .dead{
