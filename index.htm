@@ -6,6 +6,7 @@
     <link rel='stylesheet' href='style.css' />
   </head>
   <body bgcolor="#FFFFFF">
+    <script type="text/javascript" src="notify.js"></script>
     <script type="text/javascript" src="Quest.js"></script>
     <script type="text/javascript" src="myquest.js"></script>
 
@@ -19,7 +20,8 @@
           <option value="daily">定期</option>
         </select>
         <input type="date" id="questDeadline" name="date">
-        <input type="text" id="questText" name="questText" size="40" maxlength="20"></label>
+        <input type="text" id="questText" name="questText" size="40" maxlength="20">
+        </label>
         <input type="button" value="ADD" onclick="addQuest()">
       </p>
       <div id="weekChkBox" hidden="true">
@@ -31,6 +33,14 @@
           <input type="checkbox" name="dailyChkBox" value="16">木
           <input type="checkbox" name="dailyChkBox" value="32">金
           <input type="checkbox" name="dailyChkBox" value="64">土
+        </p>
+      </div>
+      <div>
+        <p>
+          <label>通知時間A:<input type="time" name="time"></label>
+          <label>通知時間B:<input type="time" name="time"></label>
+          <label>通知時間C:<input type="time" name="time"></label>
+          <input type="button" value="設定">
         </p>
       </div>
     </form> 

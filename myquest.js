@@ -201,8 +201,6 @@ function changeQuestType()
     {
         weekChkBox.hidden = true;
     }
-
-
 }
 
 function enableContentEdittable(id)
@@ -223,5 +221,25 @@ onload = function() {
 
     // クエストの表示
     refresh();
+
+    //通知
+    notifyMe(noftyQuest);
+    
 };
 
+function noftyQuest() {
+    var i = 0;
+    var interval = window.setInterval(function () {
+        if(questGroups['normal'][i].status != 'done' ){
+            var notification = new Notification(
+                    'QuestMaster',
+                        {
+                            body: questGroups['normal'][i].questName,
+                        }
+                    );
+        }
+        if(i++ == questGroups['normal'].length){
+            window.clearInterval(interval);
+        }
+    },200);
+}
