@@ -14,6 +14,27 @@ function initQuest(){
     };
 }
 
+// 
+function loadQuest() {
+    var jsonData = document.getElementById("jsonData");
+    // サイズが0でなければ
+    if(jsonData.value.length != 0)
+    {
+        questGroups = JSON.parse(jsonData.value);
+
+        // Nullやundefinedでなければ
+        if(questGroups == null || questGroups === undefined){
+            initQuest();
+        }
+
+        // ローカルストレージに保存
+        saveLocal();
+
+        // クエストの表示
+        refresh();
+    }
+}
+
 // クエストの読み込み
 function readQuest() {
     var storage = localStorage;
@@ -226,20 +247,3 @@ onload = function() {
     notifyMe(noftyQuest);
     
 };
-
-function noftyQuest() {
-    var i = 0;
-    var interval = window.setInterval(function () {
-        if(questGroups['normal'][i].status != 'done' ){
-            var notification = new Notification(
-                    'QuestMaster',
-                        {
-                            body: questGroups['normal'][i].questName,
-                        }
-                    );
-        }
-        if(i++ == questGroups['normal'].length){
-            window.clearInterval(interval);
-        }
-    },200);
-}
