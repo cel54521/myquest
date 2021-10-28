@@ -210,23 +210,6 @@ function enableContentEdittable(id)
     doc.contentEditable = true;
 }
 
-onload = function() {
-    var doc = document.getElementById("Questmaster");
-    
-    //questTypeの切り替え
-    changeQuestType();
-    
-    // クエストの読み込み
-    readQuest();
-
-    // クエストの表示
-    refresh();
-
-    //通知
-    notifyMe(noftyQuest);
-    
-};
-
 function noftyQuest() {
     var i = 0;
     var interval = window.setInterval(function () {
@@ -243,3 +226,20 @@ function noftyQuest() {
         }
     },200);
 }
+
+onload = function() {
+    var doc = document.getElementById("Questmaster");
+    
+    //questTypeの切り替え
+    changeQuestType();
+    
+    // クエストの読み込み
+    readQuest();
+
+    // クエストの表示
+    refresh();
+
+    //通知
+    notifyMe(noftyQuest);
+    
+};
